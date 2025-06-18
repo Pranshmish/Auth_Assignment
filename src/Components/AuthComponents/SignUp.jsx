@@ -9,27 +9,32 @@ export default function SignUp() {
   const [isAgency, setIsAgency] = useState(null);
   const navigate = useNavigate();
 
-  const handleSignUp = (e) => {
-    e.preventDefault();
-    const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
-    const emailExists = existingUsers.some(user => user.email === email);
+ const handleSignUp = (e) => {
+  e.preventDefault();
 
-    if (emailExists) {
-      const goToLogin = window.confirm("Email address already in use. Click OK to Login or Cancel to stay here.");
-      if (goToLogin) {
-        navigate("/login");
-      }
-      return;
-    }
-
-    const newUser = { name, phoneNumber, email, password, isAgency };
-    existingUsers.push(newUser);
-
-    localStorage.setItem("users", JSON.stringify(existingUsers));
-    localStorage.setItem("user", JSON.stringify(newUser));
-
-    navigate("/profile");
+  if (!name || !phoneNumber || !email || !password || isAgency === null) {
+    alert("Please fill out all required fields.");
+    return;
   }
+  const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
+  const emailExists = existingUsers.some(user => user.email === email);
+
+  if (emailExists) {
+    const goToLogin = window.confirm("Email address already in use. Click OK to Login or Cancel to stay here.");
+    if (goToLogin) {
+      navigate("/login");
+    }
+    return;
+  }
+  const newUser = { name, phoneNumber, email, password, isAgency };
+  existingUsers.push(newUser);
+
+  localStorage.setItem("users", JSON.stringify(existingUsers));
+  localStorage.setItem("user", JSON.stringify(newUser));
+
+  navigate("/profile");
+};
+
 
   return (
     <div className="flex justify-center px-6 py-10">
