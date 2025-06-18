@@ -7,6 +7,10 @@ export default function Login() {
   const navigate = useNavigate()
   const handleLogin = (e) => {
     e.preventDefault()
+     if (!name || !phoneNumber || !email || !password || isAgency === null) {
+    alert("Please fill out all required fields.");
+    return;
+  }
     const existingUsers = JSON.parse(localStorage.getItem("users")) || []
     const matchedUser = existingUsers.find(user => user.email === email && user.password === password);
 
